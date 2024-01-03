@@ -1,0 +1,669 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french,english]{babel}
+\usepackage[fontset=ubuntu]{ctex}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{pgf-umlcd}
+\usepackage{hyperref} 
+\hypersetup{
+    colorlinks=true,    
+    linkcolor= black,     
+    citecolor=green,    
+    urlcolor=magenta    
+}
+
+\geometry{
+  left=2cm,    
+  right=2cm,  
+  top=2cm,     
+  bottom=2cm  
+}
+\usepackage{tcolorbox}
+\title{Java et Algorithmes Résumés}
+\author{chen yang}
+\date{January 2024}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+\section{Structures conditionnelles et itératives}
+
+对于for循环来说, ++i(前缀递增)和i++(后缀递增) 是存在细微差别的. 
+
+\textbf{前缀递增:}
+\begin{itemize}
+    \item 在执行任何其他操作之前, 变量' i'的值都会先增加1
+    \item 然后, 增加后的值用于表达式的其他部分
+\end{itemize}
+
+\textbf{后缀递增:}
+\begin{itemize}
+    \item 首先变量'i'当前的值用于表达式的计算
+    \item 表达式执行之后, 'i'的值加1
+\end{itemize}
+
+这两者的差异对循环的整体行为影响不大, 但是如果这个操作应用在表达式中, 结果就会不同
+\begin{tcolorbox}[colframe=black,colback=gray!10]
+\begin{lstlisting}[language=java]
+int i = 0;
+System.out.println(++i);
+// 输出值为1, 因为先自增再输出
+int i = 0;
+Systel.out.println(i++);
+// 输出值为0, 因为先输出再自增
+\end{lstlisting}
+\end{tcolorbox}
+\textbf{for的使用场景: }预先知道执行循环的具体次数
+
+\textbf{while的使用场景: }当你不知道需要执行循环多少次，但有一个继续条件时，通常使用while循环
+
+\textbf{do-while的使用场景: }类似于while的使用场景, 但是循环体内的操作至少执行一次
+
+\section{Les tableaux}
+
+数组在java中是用来储存\textbf{固定大小的同类型元素}的集合, 并且数组是一种\textbf{基本数据结构}
+
+\subsection{ 初始化数组}
+
+\begin{itemize}
+    \item 数组可以静态初始化, 指定每个元素的值
+    \item \textbf{例如: } int[] myArray = {1, 2, 3, 4, 5}
+    \item 数组也可以动态初始化, 只指定数组的大小
+    \item \textbf{例如:} int[] myArray = new int[5]
+\end{itemize}
+
+\subsection{ 访问数组元素}
+\begin{itemize}
+    \item 访问数组元素使用索引, \textbf{索引从0开始}
+    \item \textbf{例如:} int firstElement = myArray[0];
+\end{itemize}
+\subsection{ 数组长度}
+\begin{itemize}
+    \item 数组的长度可以通过其length属性获得
+    \item \textbf{例如:} int length = myArray.length;
+\end{itemize}
+\subsection{ 循环遍历数组}
+\begin{itemize}
+    \item 常用的遍历数组的方式包括'for'循环或'for-each'循环
+    \item \textbf{'for'循环:} for (int i = 0; i < myArray.length; i++){
+    System.out.println(myArray[i]);
+    }
+    \item \textbf{'for-each'循环:} for (int element : myArray){
+    System.out.println(element);
+    }
+\end{itemize}
+\subsection{ 多维数组}
+\begin{itemize}
+    \item java支持多维数组, 通常是二维数组
+    \item \textbf{例如:} int[][] matrix = new int[3][3]
+\end{itemize}
+\subsection{ 数据的局限性}
+\begin{itemize}
+    \item 数组的大小一旦确定就不能改变
+    \item 数组只能储存一种类型的数据
+\end{itemize}
+\subsection{ Arrays类}
+\begin{itemize}
+    \item java.util.Arrays类提供了排序和搜索等操作方法
+    \item \textbf{例如:} Arrays.sort(myArray);
+\end{itemize}
+\subsection{ 示例代码}
+\begin{tcolorbox}
+    \begin{lstlisting}[language = java]
+    public class Main {
+        public static void main(String[] args) {
+        // 声明并初始化数组
+        int[] myArray = {1, 2, 3, 4, 5};
+        // 遍历数组
+        for (int i = 0; i < myArray.length; i++) {
+            System.out.println("Element at index " + i + ": " + myArray[i]);
+        }
+        // 使用 for-each 循环
+        for (int element: myArray) {
+            System.out.println("Element: " + element);
+        }
+        // 多维数组
+        int[][] matrix = {{1, 2}, {3, 4}};
+        }
+        // 访问多维数组元素
+        int element = matrix[1][0]; // 访问第二行第一列
+        System.out.println("Element in matrix: " + element)
+    }
+\end{lstlisting}
+\end{tcolorbox}
+\section{Les fonctions}
+\subsection{ 基本概念}
+\begin{enumerate}
+    \item \textbf{定义方法:}
+    \subitem 方法通常定义在类或接口中
+    \subitem 方法包含一个方法头和一个方法体
+    \subitem 方法头包括方法名, 返回类型, 参数列表和访问修饰符
+    \item \textbf{方法签名:}
+    \subitem 方法签名由方法名和参数列表组成
+    \item \textbf{返回类型:}
+    \subitem 方法可以返回值, 也可以不返回值(void类型)
+    \item \textbf{参数列表:}
+    \subitem 方法可以有零个或多个参数
+    \subitem 参数可以是基本数据类型或引用数据类型(对象和数组)
+\end{enumerate}
+\subsection{ 示例}
+\begin{tcolorbox}
+    \begin{lstlisting}[language = java]
+        public class Calculator {
+            // 一个返回两数之和的方法
+            public int add(int a, int b) {
+                return a + b;
+            }
+            // 一个不返回值的方法
+            public void printSum(int a, int b) {
+                int sum = a + b;
+                System.out.println("Sum: " + sum);
+            }
+        }
+    \end{lstlisting}
+\end{tcolorbox}
+\subsection{ 调用方法}
+\begin{itemize}
+    \item 方法可以在同一个类中被其他方法调用, 也可以被其他类中的方法调用(取决于访问修饰符)
+\end{itemize}
+\subsection{ 方法重载}
+\begin{itemize}
+    \item 方法重载(Overloading)是指在同一个类中有多个同名方法, 但这些方法的参数列表不同
+\end{itemize}
+\subsection{ 方法重写}
+\begin{itemize}
+    \item 方法重写(Overriding)发生在子类中, 子类重写继承自父类的方法
+\end{itemize}
+\subsection{ 访问修饰符}
+\begin{itemize}
+    \item 访问修饰符(如 'public', 'private')决定了方法的可见性范围
+\end{itemize}
+\subsection{ 静态和非静态方法}
+\begin{itemize}
+    \item 非静态方法(实例方法)需要一个类的实例来调用
+    \item 静态方法属于类本身, 可以不通过类的实例来调用
+\end{itemize}
+\subsection{ 递归方法}
+递归方法是一种在其定义中调用自身的方法. 它通常用于解决可以分解为相似子问题的问题. 递归方法的关键是有一个明确的终止条件, 以防止无限递归
+\subsubsection{ 递归的组成部分}
+\begin{enumerate}
+    \item \textbf{基本情形:} 这是递归停止的条件, 以防止无限递归
+    \item \textbf{递归步骤:} 在这里, 方法调用自身来解决子问题
+\end{enumerate}
+\textbf{示例: 计算阶乘}
+
+阶乘(n!)是一种常见的递归, 定义为: 
+
+\(n! = n \times (n-1) \times (n-2) \times \cdots \times 2 \times 1\)
+
+对于递归实现, 我们有: 
+
+\begin{itemize}
+    \item \textbf{基本情形:} \(0! = 1\)
+    \item \textbf{递归步骤:} \(n! = n \times (n-1)!\)
+\end{itemize}
+\begin{tcolorbox}
+    \begin{lstlisting}[language=java]
+        public class Factorial {
+            public static int factorial(int n) {
+                if (n==0) { // 基本情形
+                    return 1;
+                } else {
+                    return n*factorial(n-1); // 递归步骤
+                }
+            }
+        }  
+        public static void main(String[] args) {
+            int result = factorial(5);
+            System.out.println("Factorial of 5 is: " + result);
+        }
+    \end{lstlisting}
+\end{tcolorbox}
+\subsection{ 变长参数(Varargs)}
+变长参数允许传递零个或多个参数给一个方法. 是一种在不知道会有多少参数传递给方法时的解决方案
+
+\subsubsection{ 特点}
+\begin{enumerate}
+    \item 一个方法只能有一个变长参数, 且必须是方法签名中的最后一个参数
+    \item 变长参数实际上是一个数组
+\end{enumerate}
+\textbf{示例: 求和}
+
+假设想要编写一个方法, 该方法可以接受任意数量的整数并返回他们的和
+\begin{tcolorbox}
+    \begin{lstlisting}[language=java]
+        public class VarargsExample {
+            public static int sum(int... numbers) {
+                int sum = 0;
+                for (int number : numbers) {
+                    sum += number;
+                }
+                return sum;
+            }
+            public static void main(String[] args) {
+                int result = sum(1, 2, 3, 4, 5);
+                System.out.println("Sum is: " + result);
+            }
+        }
+    \end{lstlisting}
+\end{tcolorbox}
+\section{ Programmation Orientée Objet}
+面向对象的核心思想是通过对象来表示数据和操作数据的过程. OOP的基本概念包括: 类(Class), 对象(Object), 继承(Inheritance), 封装(Encapsulation) 和多态(Polymorphism)
+\subsection{ 类和对象}
+\begin{enumerate}
+    \item 类(Class):
+    \subitem 类是对象的蓝图或者说是模版, 定义了对象的状态和行为
+    \subitem 状态通常由变量(属性properity)表示, 行为由方法(函数)表示
+    \subitem 例如, 一个'Dog'类可能包含状态(如'age', 'breed', 'color')和行为(如'bark()', 'eat()')
+    \item 对象(Object):
+    \subitem 对象是类的实例, 使用'new'关键字和构造器来创建
+    \subitem 每个对象都有自己的状态, 且可以执行定义在类中的操作
+\end{enumerate}
+\subsection{ 封装}
+\begin{itemize}
+    \item 封装是OOP的一个重要原则, 意味着我们可以将对象的状态(属性)和行为(方法)打包在一起, 并对外部隐藏对象内部的实现过程
+    \item 这通常通过将属性设置为'private'并提供'public'的getter和setter方法来实现
+    \item 封装的好处是可以控制对象状态的访问和修改, 增加代码的安全性和灵活性
+\end{itemize}
+\subsection{ 继承}
+\begin{itemize}
+    \item 继承是一种可以从已存在的类创建新类的机制
+    \item 新创建的类(子类)继承了另一个类(父类)的属性和方法
+    \item Java中使用'extends'关键字来实现继承
+    \item 继承支持代码的复用, 并且可以建立类之间的层次关系
+\end{itemize}
+\subsection{ 多态}
+\begin{itemize}
+    \item 多态意味着一个方法或对象可以采取多种形式
+    \item 允许将子类对象当作其父类类型来处理
+    \item 在Java中, 多态通常通过重写(Overriding)方法和接口(Interface)实现
+    \item 重写是子类重定义父类的行为, 而接口定义了可以由多个类实现的方法
+\end{itemize}
+\subsection{ 抽象类和接口}
+\begin{enumerate}
+    \item 抽象类(Abstract Class):
+    \subitem 抽象类是不能被实例化的类, 通常作为其他类的基类
+    \subitem 它可以包含抽象方法(没有实现的方法)和具体方法
+    \subitem 抽象类用于持有子类共有的特征(属性)
+    \item 接口(Interface)
+    \subitem 接口是一种完全抽象的类, 只包含抽象方法
+    \subitem 类可以实现一个或多个接口
+\end{enumerate}
+\textbf{示例:}
+\begin{tcolorbox}
+    \begin{lstlisting}[language=java]
+        // 定义一个抽象的Animal类
+        abstract class Animal {
+            // 定义一个抽象方法
+            public abstract void sound();
+            // 定义一个具体方法
+            public void sleep() {
+                System.out.println("Zzz");
+            }
+        }
+        // Dog类继承Animal类
+        class Dog extends Animal {
+            @Override
+            public void sound() {
+                System.out.println("Bark");
+            }
+        }
+        public class Main {
+            public static void main(String[] args) {
+                Animal myDog = new Dog();
+                mydog.sound(); // print: Bark
+                myDog.sleep(); // print: Zzz
+            }
+        }
+    \end{lstlisting}
+\end{tcolorbox}
+\section{ UML}
+UML是一种标准的图形语言, 用于建模软件系统的结构和行为. 通过UML, 可以可视化系统的类的结构, 对象间的关系以及交互. 
+\subsection{ UML类图和Java类}
+\begin{enumerate}
+    \item 类(Class):
+    \subitem 在UML中, 类用一个带有三个部分的矩形表示: 上部是类名, 中部是属性, 下部是方法
+    \subitem 在Java中, 这直接对应于类的定义, 包括成员变量(属性)和方法
+    \item 属性和方法: 
+    \subitem UML类图中的属性对应于Java类中的成员变量
+    \subitem UML类图中的方法对应于Java类中的成员方法
+\end{enumerate}
+\subsection{ 继承}
+\begin{itemize}
+    \item 在UML类图中, 继承关系用带有空心箭头的直线表示, 箭头指向基类
+    \item 在Java中, 继承使用'extends'关键字表示
+    \item 例如, 如果'Dog'类继承自'Animal'类, 在UML中, 会有一条从'Dog'指向'Animal'的带有空心箭头的直线
+\end{itemize}
+\subsection{ 接口实现}
+\begin{itemize}
+    \item 在UML类图中, 一个类实现接口的关系用带有空心箭头的虚线表示, 箭头指向接口
+    \item 在Java中, 接口实现使用'implements'关键字
+    \item 例如, 如果'Dog'类实现了'Pet'接口, 在UML中, 会有一条从'Dog'指向'Pet'的带有空心箭头的虚线
+\end{itemize}
+\subsection{ 关联, 聚合和组合}
+\begin{itemize}
+    \item 关联(Association): 两个类之间的普通链接, 表示一个类知道另一个类. 在UML中, 用一条普通的线表示
+    \item 聚合(Aggregation): 一种特殊的关联, 表示'整体-部分'的关系, 但是生命周期不同.在UML中, 用带有空心菱形的线表示, 菱形在整体端
+    \item 组合(Composition): 比聚合更强的'整体-部分'关系, 部分的生命周期与整体相同. 在UML中, 用带有实心菱形的线表示, 菱形在整体端
+\end{itemize}
+\textbf{示例:}
+
+假设我们要设计一个表示学校的系统, 其中包括学校, 教师, 学生, 课程, 部门等实体
+
+\textbf{UML类图设计}
+
+\begin{enumerate}
+    \item 类:
+    \subitem 'School'
+    \subitem 'Department'
+    \subitem 'Teacher'
+    \subitem 'Student'
+    \subitem 'Crouse'
+    \item 关系:
+    \subitem 继承: 'Teacher'和'Student'都是'Person'类的子类
+    \subitem 接口实现: 假设'Teacher'类实现了'Employee'接口
+    \subitem 关联: 'Teacher'类与'Course'之间存在关联关系(教师教授课程)
+    \subitem 聚合: 'Department'类聚合'Teacher'类(部门有教师, 但是教师可以独立于部门存在)
+    \subitem 组合: 'School'类组合'Department'类(学校包含部门, 部门的生命周期依赖于学校)
+\end{enumerate}
+\begin{tikzpicture}
+    \begin{class}[text width=4cm]{School}{0,0}
+        \attribute{-departments}
+    \end{class}
+    \begin{class}[text width=4cm]{Department}
+    {7,0}
+        \attribute{-teachers}
+        \attribute{-students}
+    \end{class}
+    \begin{class}[text width=4cm]{Person}
+    {0, -5}
+        \attribute{-name}
+    \end{class}
+    \begin{class}[text width=4cm]{Employee}{14, 0}
+        \operation{work()}
+    \end{class}
+    \begin{class}[text width=4cm]{Teacher}{7,-5}
+        \inherit{Person}
+        \implement{Employee}
+        \attribute{-courses}
+    \end{class}
+    \begin{class}[text width=4cm]{Course}{14, -5}
+        \attribute{-teacher}
+    \end{class}
+    \begin{class}[text width=4cm]{Student}{7, -10}
+        \inherit{Person}
+        \attribute{-courses}    
+    \end{class}
+
+    \composition{School}{}{}{Department}
+    \aggregation{Department}{}{}{Teacher}
+    \unidirectionalAssociation{Teacher}{}{}{Course}
+    \unidirectionalAssociation{Student}{}{}{Course}
+\end{tikzpicture}
+\begin{tcolorbox}
+    \begin{lstlisting}[language=java]
+    // 基类Pesrson和接口Employee
+    public abstract class Person {
+        private String name;
+        // 其他通用属性和方法
+    }
+    public interface Employee {
+        void work();
+    }
+    // 学校和部门类
+    public class School {
+        private List<Department> departments;
+        // 其他属性和方法
+    }
+    public class Department {
+        private List<Teacher> teachers;
+        private List<Student> students;
+        // 其他属性和方法
+    }
+    // 教师和学生类
+    public class Teacher extends Person implements Employee {
+        private List<Course> courses;
+        // 实现接口的方法
+        public void work() {
+            // 工作实现
+        }
+        // 其他属性和方法
+    }
+    public class Student extends Person {
+        private List<Course> courses;
+        // 其他属性和方法
+    }
+    // 课程类
+    public class Course {
+        private Teacher teacher;
+        // 其他属性和方法
+    }
+    \end{lstlisting}
+\end{tcolorbox}
+\section{ Static et Final}
+'static'和'final'关键字分别用于定义类的静态成分和不可变的常量
+\subsection{ 'static'关键字}
+'static'关键字用于创建类的成员(变量和方法), 这些成员与类的任何对象实例无关,而是属于对象本身
+\begin{enumerate}
+    \item 静态变量(Static Variables)
+    \subitem 也被称为类变量
+    \subitem 这些变量不属于类的任何特定实例, 而是属于类本身
+    \subitem 所有实例共享同一个静态变量
+    \subitem 如果一个实例修改了静态变量, 这个修改对所有其他实例都是可见的
+    
+    \textbf{示例:}
+
+\begin{tcolorbox}
+    \begin{lstlisting}[language=java]
+        public class ClassName {
+            public static int staticVar = 0;
+        } 
+    \end{lstlisting}
+\end{tcolorbox}
+    \item 静态方法(Static Methods)
+    \subitem 这些方法同样不属于类的任何特定实例
+    \subitem 它们不能直接访问类的实例变量或实例方法, 它们只能访问类的静态变量和静态方法
+    \subitem 静态方法通常用于执行不依赖于对象状态的操作
+
+    \textbf{示例:}
+    \begin{tcolorbox}
+        \begin{lstlisting}[language=java]
+            public class ClassName {
+                public static void staticMethod() {
+                    System.out.println("This is a static method");
+                }
+            }
+        \end{lstlisting}
+    \end{tcolorbox}
+    \item 静态块(Static Blocks)
+    \subitem 在类第一次加载到JVM时执行, 通常用于初始化静态变量
+    \subitem 可以有多个静态块, 在类加载时按照它们出现的顺序执行
+
+    \textbf{示例:}
+    \begin{tcolorbox}
+        \begin{lstlisting}[language=java]
+            public class ClassName {
+                static {
+                    // 初始化代码
+                }
+            }
+        \end{lstlisting}
+    \end{tcolorbox}
+\end{enumerate}
+\subsection{ 'final'关键字}
+'final'关键字用于声明变量, 方法或类, 使其不可更改
+\begin{enumerate}
+    \item Final变量:
+    \subitem 一旦赋值后, 其值就不能被修改
+    \subitem 如果是基本类型, 其值不能改变; 如果是引用类型, 其引用不能指向其他对象, 但对象本身是可以被修改的
+
+    \textbf{示例:}
+    \begin{tcolorbox}
+        \begin{lstlisting}[language=java]
+            public class ClassName {
+                public final int finalVar = 42;
+            }
+        \end{lstlisting}
+    \end{tcolorbox}
+    \item Final方法:
+    \subitem 这样的方法不能被子类重写
+    \subitem 它们经常与继承一起使用,以确保某些行为不会在子类中改变
+
+    \textbf{示例:}
+    \begin{tcolorbox}
+        \begin{lstlisting}[language=java]
+            public class SuperClass {
+                public final void finalMethod() {
+                    // 方法体
+                }
+            }
+        \end{lstlisting}
+    \end{tcolorbox}
+    \item Final类:
+    \subitem 被声明为'final'的类不能被继承
+    \subitem 这通常用于保证类的不变性或安全性
+
+    \textbf{示例:}
+    \begin{tcolorbox}
+        \begin{lstlisting}[language=java]
+            public final class FinalClass {
+                // 类体
+            }
+        \end{lstlisting}
+    \end{tcolorbox}
+\end{enumerate}
+\textbf{总结}
+
+\begin{itemize}
+    \item 'static'成员(变量和方法)属于类本身, 而不是类的实例
+    \item 'static'变量在所有实例之间共享, 而静态方法不能访问类实例的非静态成员
+    \item 'final'用于创建常量, 防止方法被重写和防止类被继承
+    \item 'final'变量一旦被初始化, 其值就不能被改变
+\end{itemize}
+\section{Modèle de mémoire Java}
+\begin{enumerate}
+    \item 堆(Heap):
+    \subitem 堆是Java虚拟机(JVM)的一个运行时的数据区域, 其中储存了所有的对象实例和数组
+    \subitem 当在程序中创建一个对象时, 无论是普通对象还是类的静态成员对象, 它都会在堆内存中分配
+    \item 方法区(Method Area):
+    \subitem 方法区是堆堆一个逻辑部分, 用于储存已被虚拟机加载的类信息, 常量, 静态变量及时编译器编译后的代码等数据
+    \item 栈(Stack):
+    \subitem 栈用于存储局部变量(包括基本数据类型和对象引用)和方法调用的上下文
+    \subitem 每个线程在Java虚拟机中都有自己的栈, 称为线程栈
+    \subitem 当一个方法被调用时, 一个新的栈帧会被创建并被压入调用线程的栈中, 该栈帧中包含了方法的局部变量和其他信息
+    \subitem 当方法调用结束时, 对应的栈帧被弹出栈
+\end{enumerate}
+\section{ Chaînes de caractères, fichiers et répertoires}
+\subsection{字符串处理}
+Java中的字符串是使用'String'类实现的, 它是不可变的, 即一旦创建, 其内容就不能被改变
+
+\textbf{常用方法}
+\begin{enumerate}
+    \item 创建字符串:
+    \subitem 直接使用双引号: 'String s = "Hello"; '
+    \subitem 通过'new'关键字: 'String s = new String("Hello");'
+    \item 链接字符串:
+    \subitem 使用'+'操作符: 'String s = "Hello" + "World";'
+    \subitem 使用'concat'方法: 's.concat(" World");'
+    \item 字符串长度：
+    \subitem 'length()' 方法：'int len = s.length();'
+    \item 字符和子字符串：
+    \subitem 访问特定字符：'char c = s.charAt(index);'
+    \subitem 获取子字符串：'String sub = s.substring(startIndex, endIndex);'
+    \item 字符串比较：
+    \subitem 'equals' 方法：'s.equals("Hello");'
+    \subitem 'equalsIgnoreCase' 方法：忽略大小写比较。
+    \item 查找和替换：
+    \subitem 查找字符或子字符串：'int index = s.indexOf("lo");'
+    \subitem 替换字符或子字符串：'String replaced = s.replace('l', 'r');'
+    \item 大小写转换：
+    \subitem 转换为大写：'s.toUpperCase();'
+    \subitem 转换为小写：'s.toLowerCase();'
+    \item 去除首尾空白：
+    \subitem 'trim()' 方法：'s.trim();'
+    \item 格式化字符串：
+    \subitem 'String.format()'：'String fs = String.format("Name: \%s, Age: \%d", name, age);'
+    \item 字符串拆分：
+    \subitem 'split()' 方法：'String[] parts = s.split(" ");'
+\end{enumerate}
+\textbf{不可变性:}
+
+由于'String'对象不可变, 每次对字符串的操作实际上都会生成一个新的'String'对象. 因此, 在频繁进行字符串操作的场景下, 考虑使用'Stringbuilder'或'StringBuffer'类, 这两个类提供了可变字符串的实现
+\subsection{ 文件和目录操作}
+Java中的文件和目录操作主要通过'java.io'和'java.nio'包中的类进行
+
+\textbf{文件操作}
+
+\begin{enumerate}
+    \item 文件读写:
+    \subitem 使用'FileReaer'和'FileWriter'进行文本文件的读写
+    \subitem 使用'BufferedReader'和'BufferedWriter'为文件读写提供缓冲功能
+    \item 二进制文件操作:
+    \subitem 使用'FileInputStream'和'FileOutputStream'
+    \item 创建和删除文件:
+    \subitem 使用'File'类的'createNewFile'和'delete'方法
+\end{enumerate}
+
+\textbf{目录操作}
+\begin{enumerate}
+    \item 列出目录内容:
+    \subitem 使用'File'类的'listFiles'方法
+    \item 创建和删除目录:
+    \subitem 使用'File'类的'mkdir','mkdirs'和'delete'方法
+\end{enumerate}
+
+\textbf{示例}
+
+\begin{tcolorbox}
+    \begin{lstlisting}[language=java]
+        //
+        File file = new File("example.txt");
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        //
+        BufferedWrite writer = new BufferedWriter(new FileWriter(file));
+        writer.write("Hello, World!");
+        writer.close();
+        //
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line;
+        while ((line = reader.readLiine()) != null) {
+            System.out.println(line);
+        }
+        reader.close();
+    \end{lstlisting}
+\end{tcolorbox}
+\section{ Algorithmes de Tri et Complexité}
+\subsection{ 什么叫算法}
+算法: 是对特定问题求解方法或步骤的一种描述. 一个算法可以用多种方法描述, 主要有:
+\begin{itemize}
+    \item 使用自然语言描述
+    \item 使用形式语言描述
+    \item 使用计算机程序设计语言描述
+\end{itemize}
+
+算法一般具有以下五个特性:
+\begin{itemize}
+    \item 输入: 一个算法有零个或多个输入, 这些输入取自于某个特定的对象集合
+    \item 输出: 一个算法有一个或多个输出, 这些输出是同输入有着某些特定关系的量
+    \item 有穷性: 一个算法必须总是在执行有穷步之后结束, 且每一步都在有穷时间内完成
+    \item 确定性: 算法中每一条指令必须有确切的含义, 不存在二义性
+    \item 可行性: 算法描述的操作都可以通过已经实现的基本运算执行有限次来实现
+\end{itemize}
+\subsection{ 什么叫好算法}
+评价一个算法的好坏有几个标准:
+\begin{itemize}
+    \item 正确性(Correctness): 算法应满足具体问题的需求
+    \item 可读性(Readability): 算法应容易供人阅读和交流
+    \item 健壮性/鲁棒性(Robustness): 算法应具有容错处理. 当输入非法或错误数据时, 算法应能适当的做出反应或进行处理, 而不会产生莫名其妙的输出结果
+    \item 通用型(Generality): 算法应具有一般性, 即算法的处理结果对于一般的数据集合都成立
+\end{itemize}
+\subsection{ 算法的时间复杂度}
+算法中基本操作重复执行的次数是问题规模n的某个函数, 其时间量度记作: T(n)=O(f(n)), 称作算法的渐进时间复杂度(Asymptotic Time complexity), 简称时间复杂度. 一般地, 常用最深处循环内的语句中的原操作的执行频度(重复执行的次数)来表示
+\end{document}
